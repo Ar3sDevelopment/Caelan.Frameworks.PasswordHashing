@@ -3,7 +3,6 @@
 open System.Security.Cryptography
 open System.Text
 open Caelan.Frameworks.PasswordHashing.Interfaces
-open Caelan.Frameworks.Common.Helpers
 
 type PasswordHasher(salt : string, defaultPassword : string, encryptor : IPasswordHasher) = 
     
@@ -27,7 +26,7 @@ type PasswordHasher(salt : string, defaultPassword : string, encryptor : IPasswo
     /// </summary>
     /// <param name="password">The password to be hashed</param>
     member this.HashPassword(password) = 
-        (encryptor, password) |> MemoizeHelper.Memoize(fun (e, p) -> e.HashPassword(this.Salt + e.HashPassword(p)))
+        encryptor.HashPassword(this.Salt + password)
     
     new(salt, defaultPassword) = 
         let encryptor = 
