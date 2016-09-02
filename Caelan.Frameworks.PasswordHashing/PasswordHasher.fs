@@ -26,7 +26,7 @@ type PasswordHasher(salt : string, defaultPassword : string, encryptor : IPasswo
     /// </summary>
     /// <param name="password">The password to be hashed</param>
     member this.HashPassword(password) = 
-        encryptor.HashPassword(this.Salt + password)
+        encryptor.HashPassword(this.Salt + encryptor.HashPassword(password))
     
     new(salt, defaultPassword) = 
         let encryptor = 
